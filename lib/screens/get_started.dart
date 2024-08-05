@@ -118,7 +118,9 @@ class GetStarted extends StatelessWidget {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/login');
+                          },
                           style: ButtonStyle(
                             foregroundColor: MaterialStatePropertyAll(
                               GlobalColor.primary,
