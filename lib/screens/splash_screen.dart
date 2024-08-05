@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future initializeApp() async {
     Timer(const Duration(milliseconds: 3000), () {
-      Navigator.of(context).pushNamed('/get-started');
+      Navigator.of(context).pushReplacementNamed('/get-started');
     });
   }
 
