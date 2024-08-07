@@ -143,7 +143,9 @@ class _BookingCardState extends State<BookingCard> {
               children: [
                 if (!widget.isCancelled)
                   AppButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/cancel-booking');
+                    },
                     backgroundColor: GlobalColor.primary.withOpacity(0.2),
                     foregroundColor: GlobalColor.primary,
                     fixedSize: 2.5,
