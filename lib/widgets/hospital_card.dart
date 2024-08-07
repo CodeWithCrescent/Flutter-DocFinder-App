@@ -17,16 +17,16 @@ class HospitalCard extends StatelessWidget {
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage('assets/images/hospitals/hospital-1.jpg'),
+              image: AssetImage('assets/images/hospitals/1.jpg'),
             ),
           ),
         ),
         Container(
           width: MediaQuery.of(context).size.width / 1.5,
-          height: MediaQuery.of(context).size.height / 7.5,
+          // height: MediaQuery.of(context).size.height / 8,
           padding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width / 25,
-            vertical: MediaQuery.of(context).size.height / 75,
+            vertical: MediaQuery.of(context).size.height / 65,
           ),
           margin: EdgeInsets.only(
             bottom: MediaQuery.of(context).size.height / 75,
@@ -44,7 +44,7 @@ class HospitalCard extends StatelessWidget {
                 'Meta Women Hospital',
                 style: TextStyle(
                   color: GlobalColor.black,
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -52,7 +52,7 @@ class HospitalCard extends StatelessWidget {
                 'Maternity, Women',
                 style: TextStyle(
                   color: GlobalColor.muted,
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: FontWeight.normal,
                 ),
               ),
@@ -71,7 +71,7 @@ class HospitalCard extends StatelessWidget {
                     '8502 Makumbusho, Ilala',
                     style: TextStyle(
                       color: GlobalColor.black,
-                      fontSize: 14,
+                      fontSize: 12,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.5,
                     ),
@@ -92,7 +92,7 @@ class HospitalCard extends StatelessWidget {
                     '15 min . 1.5km',
                     style: TextStyle(
                       color: GlobalColor.black,
-                      fontSize: 14,
+                      fontSize: 12,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.5,
                     ),
