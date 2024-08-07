@@ -1,4 +1,5 @@
 import 'package:doc_finder/constants/colors.dart';
+import 'package:doc_finder/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordForm extends StatefulWidget {
@@ -44,6 +45,32 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
+            onChanged: (value) {
+              setState(() {
+                _formKey.currentState?.validate();
+              });
+            },
+            validator: (value) {
+              if (value == null ||
+                  value.isEmpty ||
+                  !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value)) {
+                return 'Enter a valid email!';
+              }
+              return null;
+            },
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height / 25),
+          AuthSubmitButton(
+            title: 'Send Reset Code',
+            onPressed: () {
+              final isValid = _formKey.currentState!.validate();
+              if (!isValid) {
+                return;
+              }
+              _formKey.currentState!.save();
+              Navigator.of(context).pushNamed('/verify-code');
+            },
           ),
         ],
       ),
