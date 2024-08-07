@@ -21,10 +21,10 @@ class _EnterLocationManuallyState extends State<EnterLocationManually> {
       appBar: AppBar(
         title: Text(arguments['title'] ?? 'Enter Your Location'),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: GlobalColor.white,
         foregroundColor: GlobalColor.black,
         elevation: 0,
-        surfaceTintColor: Colors.transparent,
+        surfaceTintColor: GlobalColor.white,
         titleTextStyle: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w500,
@@ -106,40 +106,48 @@ class _EnterLocationManuallyState extends State<EnterLocationManually> {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height / 65),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.location_on,
-                      color: GlobalColor.primary,
-                      textDirection: TextDirection.ltr,
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width / 50),
-                    Text(
-                      'Makumbusho Stand',
-                      style: TextStyle(
-                        color: GlobalColor.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: 0.5,
+            InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  '/home',
+                  arguments: {'location': 'Makumbusho Stand'},
+                );
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.location_on,
+                        color: GlobalColor.primary,
+                        textDirection: TextDirection.ltr,
                       ),
-                    ),
-                  ],
-                ),
-                // SizedBox(height: MediaQuery.of(context).size.height / 99),
-                Text(
-                  '8502 Bagamoyo Rd. Near Old Ti..',
-                  style: TextStyle(
-                    color: GlobalColor.muted,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
+                      SizedBox(width: MediaQuery.of(context).size.width / 50),
+                      Text(
+                        'Makumbusho Stand',
+                        style: TextStyle(
+                          color: GlobalColor.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  // SizedBox(height: MediaQuery.of(context).size.height / 99),
+                  Text(
+                    '8502 Bagamoyo Rd. Near Old Ti..',
+                    style: TextStyle(
+                      color: GlobalColor.muted,
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
