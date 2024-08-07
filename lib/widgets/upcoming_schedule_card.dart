@@ -1,7 +1,6 @@
 import 'package:doc_finder/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-
 class UpcomingScheduleCard extends StatelessWidget {
   const UpcomingScheduleCard({
     super.key,
@@ -31,8 +30,7 @@ class UpcomingScheduleCard extends StatelessWidget {
                       color: GlobalColor.muted,
                     ),
                   ),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width / 40),
+                  SizedBox(width: MediaQuery.of(context).size.width / 40),
                   Column(
                     children: [
                       Text(
@@ -40,14 +38,14 @@ class UpcomingScheduleCard extends StatelessWidget {
                         style: TextStyle(
                           color: GlobalColor.white,
                           fontWeight: FontWeight.w500,
-                          fontSize: 18,
+                          fontSize: 16,
                         ),
                       ),
                       Text(
                         'Dentist Consultation',
                         style: TextStyle(
                           color: GlobalColor.white,
-                          fontSize: 15,
+                          fontSize: 14,
                         ),
                       ),
                     ],
@@ -85,14 +83,12 @@ class UpcomingScheduleCard extends StatelessWidget {
                       Icons.calendar_month_outlined,
                       color: GlobalColor.white,
                     ),
-                    SizedBox(
-                        width:
-                            MediaQuery.of(context).size.width / 50),
+                    SizedBox(width: MediaQuery.of(context).size.width / 50),
                     Text(
                       'Moday, 26 Aug',
                       style: TextStyle(
                         color: GlobalColor.white,
-                        fontSize: 15,
+                        fontSize: 14,
                       ),
                     ),
                   ],
@@ -108,14 +104,12 @@ class UpcomingScheduleCard extends StatelessWidget {
                       Icons.timelapse,
                       color: GlobalColor.white,
                     ),
-                    SizedBox(
-                        width:
-                            MediaQuery.of(context).size.width / 50),
+                    SizedBox(width: MediaQuery.of(context).size.width / 50),
                     Text(
                       '09:00 - 10:00',
                       style: TextStyle(
                         color: GlobalColor.white,
-                        fontSize: 15,
+                        fontSize: 14,
                       ),
                     ),
                   ],
