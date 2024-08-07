@@ -1,7 +1,7 @@
 import 'package:doc_finder/constants/colors.dart';
 import 'package:doc_finder/screens/auth/auth_screen.dart';
 import 'package:doc_finder/screens/get_started.dart';
-import 'package:doc_finder/screens/home_screen.dart';
+import 'package:doc_finder/screens/layout_screen.dart';
 import 'package:doc_finder/screens/location_access.dart';
 import 'package:doc_finder/screens/location_manually.dart';
 import 'package:doc_finder/screens/onboarding_screen.dart';
@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Doctor Booking App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: GlobalColor.primary),
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
         '/new-password': (context) => AuthScreen(pageNumber: 5),
         '/location-access': (context) => const LocationAccess(),
         '/enter-location-manually': (context) => const EnterLocationManually(),
-        '/home': (context) => const HomeScreen(),
+        '/home': (context) => const AppLayoutScreen(),
       },
     );
   }
