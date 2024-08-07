@@ -1,4 +1,5 @@
 import 'package:doc_finder/constants/colors.dart';
+import 'package:doc_finder/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 
 class GetStarted extends StatelessWidget {
@@ -8,6 +9,14 @@ class GetStarted extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GlobalColor.bg,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(10),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          primary: false,
+          backgroundColor: GlobalColor.bg,
+        ),
+      ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
@@ -48,7 +57,7 @@ class GetStarted extends StatelessWidget {
                           'Your',
                           style: TextStyle(
                             color: GlobalColor.black,
-                            fontSize: 28,
+                            fontSize: 22,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -57,7 +66,7 @@ class GetStarted extends StatelessWidget {
                           'Ultimate Doctor',
                           style: TextStyle(
                             color: GlobalColor.primary,
-                            fontSize: 28,
+                            fontSize: 22,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -67,7 +76,7 @@ class GetStarted extends StatelessWidget {
                       'Appointment Booking App',
                       style: TextStyle(
                         color: GlobalColor.black,
-                        fontSize: 28,
+                        fontSize: 22,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -78,30 +87,21 @@ class GetStarted extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: GlobalColor.grey,
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height / 25),
-                    ElevatedButton(
+                    AppButton(
                       onPressed: () {
                         Navigator.of(context).pushNamed('/onboarding');
                       },
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(GlobalColor.primary),
-                        foregroundColor:
-                            MaterialStatePropertyAll(GlobalColor.white),
-                        elevation: const MaterialStatePropertyAll(5),
-                        fixedSize: MaterialStateProperty.all(
-                          Size.fromWidth(
-                              MediaQuery.of(context).size.width / 1.2),
-                        ),
-                        padding: MaterialStateProperty.all(
-                          const EdgeInsets.symmetric(vertical: 18),
-                        ),
-                      ),
-                      child: const Text('Let\'s Get Started'),
+                      backgroundColor: GlobalColor.primary,
+                      foregroundColor: GlobalColor.white,
+                      fixedSize: 1.2,
+                      text: 'Let\'s Get Started',
+                      elevation: 5,
+                      verticalPadding: 14,
                     ),
                     SizedBox(height: MediaQuery.of(context).size.height / 40),
                     Row(
@@ -113,13 +113,13 @@ class GetStarted extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: GlobalColor.black,
-                            fontSize: 18,
+                            fontSize: 14,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pushNamed('/login');
+                            Navigator.of(context).pushNamed('/home');
                           },
                           style: ButtonStyle(
                             foregroundColor: MaterialStatePropertyAll(
@@ -128,7 +128,7 @@ class GetStarted extends StatelessWidget {
                           ),
                           child: const Text(
                             'Sign In',
-                            style: TextStyle(fontSize: 18),
+                            style: TextStyle(fontSize: 14),
                           ),
                         ),
                       ],
