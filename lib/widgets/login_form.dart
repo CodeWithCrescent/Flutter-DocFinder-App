@@ -1,4 +1,5 @@
 import 'package:doc_finder/constants/colors.dart';
+import 'package:doc_finder/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
@@ -13,6 +14,14 @@ class _LoginFormState extends State<LoginForm> {
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
   bool _obsecurePass = true;
+
+  void _submit() {
+    final isValid = _formKey.currentState!.validate();
+    if (!isValid) {
+      return;
+    }
+    _formKey.currentState!.save();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +55,20 @@ class _LoginFormState extends State<LoginForm> {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
+            onChanged: (value) {
+              setState(() {
+                _formKey.currentState?.validate();
+              });
+            },
+            validator: (value) {
+              if (value == null ||
+                  value.isEmpty ||
+                  !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value)) {
+                return 'Enter a valid email';
+              }
+              return null;
+            },
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 50),
           Row(
@@ -91,6 +114,17 @@ class _LoginFormState extends State<LoginForm> {
                       ),
               ),
             ),
+            onChanged: (value) {
+              setState(() {
+                _formKey.currentState?.validate();
+              });
+            },
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Enter a valid password';
+              }
+              return null;
+            },
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -109,6 +143,19 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
             ],
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height / 50),
+          AuthSubmitButton(
+            title: 'Sign In',
+            onPressed: () {
+              final isValid = _formKey.currentState!.validate();
+              if (!isValid) {
+                return;
+              }
+              debugPrint('In Login, Data Validated!!');
+              _formKey.currentState!.save();
+              Navigator.of(context).pushNamed('/home');
+            },
           ),
         ],
       ),
