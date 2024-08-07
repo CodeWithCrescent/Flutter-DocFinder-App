@@ -67,7 +67,10 @@ class LocationAccess extends StatelessWidget {
               SizedBox(height: MediaQuery.of(context).size.height / 25),
               ElevatedButton(
                 onPressed: () {
-                  // Navigator.of(context).pushNamed('/enter-location-manually');
+                  Navigator.of(context).pushNamed(
+                    '/home',
+                    arguments: {'location': 'Makumbusho Stand'},
+                  );
                 },
                 style: ButtonStyle(
                     backgroundColor:
