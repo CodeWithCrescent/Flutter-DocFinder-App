@@ -10,5 +10,5 @@ class GlobalColor {
   static HexColor dark = HexColor('#484848');
   // static HexColor muted = HexColor('#adb5bd');
   static Color muted = Colors.black38;
-  static Color red = Colors.red;
+  static Color red = const Color.fromARGB(255, 185, 40, 37);
 }
