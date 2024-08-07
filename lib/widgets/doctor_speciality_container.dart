@@ -34,7 +34,7 @@ class DoctorSpecialityContainer extends StatelessWidget {
           speciality,
           style: TextStyle(
             color: GlobalColor.black,
-            fontSize: 14,
+            fontSize: 12,
             fontWeight: FontWeight.bold,
           ),
         )
