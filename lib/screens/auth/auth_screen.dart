@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:doc_finder/constants/colors.dart';
 import 'package:doc_finder/widgets/forget_password_form.dart';
 import 'package:doc_finder/widgets/login_form.dart';
@@ -5,8 +6,8 @@ import 'package:doc_finder/widgets/new_password_form.dart';
 import 'package:doc_finder/widgets/register_form.dart';
 import 'package:doc_finder/widgets/social_login.dart';
 import 'package:doc_finder/widgets/verify_code_form.dart';
-import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class AuthScreen extends StatefulWidget {
   AuthScreen({super.key, required this.pageNumber});
   int pageNumber;
@@ -20,43 +21,28 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GlobalColor.white,
-      appBar: AppBar(
-        automaticallyImplyLeading: widget.pageNumber == 3 ||
-                widget.pageNumber == 4 ||
-                widget.pageNumber == 5
-            ? true
-            : false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        surfaceTintColor: GlobalColor.white,
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.only(
-            left: MediaQuery.of(context).size.height / 30,
-            right: MediaQuery.of(context).size.height / 30,
-            top: widget.pageNumber == 1 || widget.pageNumber == 3
-                ? MediaQuery.of(context).size.height / 25
-                : 0,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 15,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
-              Row(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            backgroundColor: GlobalColor.white,
+            surfaceTintColor: GlobalColor.white,
+            floating: true,
+            pinned: true,
+            expandedHeight: 150.0,
+            automaticallyImplyLeading: widget.pageNumber == 3 ||
+                    widget.pageNumber == 4 ||
+                    widget.pageNumber == 5
+                ? true
+                : false,
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              expandedTitleScale: 1.25,
+              title: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    widget.pageNumber == 1
-                        ? 'Sign'
-                        : widget.pageNumber == 2
-                            ? 'Create'
-                            : widget.pageNumber == 3
-                                ? 'Forgot'
-                                : widget.pageNumber == 4
-                                    ? 'Verify'
-                                    : 'Create',
+                    _getTitleFirstPart(),
                     style: TextStyle(
                       color: GlobalColor.black,
                       fontWeight: FontWeight.w600,
@@ -65,15 +51,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                   const SizedBox(width: 5),
                   Text(
-                    widget.pageNumber == 1
-                        ? 'In'
-                        : widget.pageNumber == 2
-                            ? 'Account'
-                            : widget.pageNumber == 3
-                                ? 'Password'
-                                : widget.pageNumber == 4
-                                    ? 'Code'
-                                    : 'New Password',
+                    _getTitleSecondPart(),
                     style: TextStyle(
                       color: GlobalColor.primary,
                       fontWeight: FontWeight.w600,
@@ -82,145 +60,186 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 75),
-              Text(
-                widget.pageNumber == 1
-                    ? 'Hi! Welcome back, you\'ve been missed'
-                    : widget.pageNumber == 2
-                        ? 'Join us to make appointment and meet your doctor seamlesly'
-                        : widget.pageNumber == 3
-                            ? 'Enter your email so as we can send you a verification code, to recover your password'
-                            : widget.pageNumber == 4
-                                ? 'Please enter the code we just sent to email example@email.com'
-                                : 'Your new password must be different from previously used passwords.',
-                softWrap: true,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: GlobalColor.grey,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              widget.pageNumber == 1
-                  ? SizedBox(height: MediaQuery.of(context).size.height / 25)
-                  : SizedBox(height: MediaQuery.of(context).size.height / 35),
-              if (widget.pageNumber == 1)
-                const LoginForm()
-              else if (widget.pageNumber == 2)
-                const RegisterForm()
-              else if (widget.pageNumber == 3)
-                const ForgotPasswordForm()
-              else if (widget.pageNumber == 4)
-                const VerifyCodeForm()
-              else if (widget.pageNumber == 5)
-                const NewPasswordForm(),
-              SizedBox(height: MediaQuery.of(context).size.height / 50),
-              if (widget.pageNumber != 4)
-                ElevatedButton(
-                  onPressed: () {
-                    if (widget.pageNumber == 1) {
-                      Navigator.pushNamed(context, '/home');
-                    } else if (widget.pageNumber == 2) {
-                      Navigator.pushNamed(context, '/location-access');
-                    } else if (widget.pageNumber == 3) {
-                      Navigator.pushNamed(context, '/verify-code');
-                    } else if (widget.pageNumber == 5) {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          '/login', (Route route) => false);
-                    }
-                  },
-                  style: ButtonStyle(
-                    foregroundColor:
-                        MaterialStatePropertyAll(GlobalColor.white),
-                    backgroundColor:
-                        MaterialStatePropertyAll(GlobalColor.primary),
-                    fixedSize: MaterialStatePropertyAll(
-                      Size.fromWidth(MediaQuery.of(context).size.width),
-                    ),
-                    padding: const MaterialStatePropertyAll(
-                      EdgeInsets.symmetric(vertical: 15),
-                    ),
-                  ),
-                  child: Text(
-                    widget.pageNumber == 1
-                        ? 'Sign In'
-                        : widget.pageNumber == 2
-                            ? 'Sign Up'
-                            : widget.pageNumber == 3
-                                ? 'Send Code'
-                                : widget.pageNumber == 4
-                                    ? 'Verify'
-                                    : 'Create New Password',
-                    style: const TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              SizedBox(height: MediaQuery.of(context).size.height / 25),
-              if (widget.pageNumber == 1 || widget.pageNumber == 2)
-                Text(
-                  widget.pageNumber == 1
-                      ? 'Or sign in with'
-                      : 'Or sign up with',
-                  style: TextStyle(
-                    color: GlobalColor.muted,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              widget.pageNumber == 1
-                  ? SizedBox(height: MediaQuery.of(context).size.height / 25)
-                  : SizedBox(height: MediaQuery.of(context).size.height / 50),
-              if (widget.pageNumber == 1 || widget.pageNumber == 2)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SocialButton(social: 'apple'),
-                    SizedBox(width: MediaQuery.of(context).size.width / 50),
-                    const SocialButton(social: 'google'),
-                    SizedBox(width: MediaQuery.of(context).size.width / 50),
-                    const SocialButton(social: 'facebook'),
-                  ],
-                ),
-              widget.pageNumber == 1
-                  ? SizedBox(height: MediaQuery.of(context).size.height / 25)
-                  : SizedBox(height: MediaQuery.of(context).size.height / 50),
-              if (widget.pageNumber == 1 || widget.pageNumber == 2)
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      widget.pageNumber == 1
-                          ? 'Don\'t have an account?'
-                          : 'Already have an account?',
-                      style: TextStyle(
-                        color: GlobalColor.black,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          if (widget.pageNumber == 1) {
-                            widget.pageNumber = 2;
-                          } else if (widget.pageNumber == 2) {
-                            widget.pageNumber = 1;
-                          }
-                        });
-                      },
-                      child: Text(
-                        widget.pageNumber == 1 ? 'Sign Up' : 'Sign In',
-                        style: TextStyle(
-                          color: GlobalColor.primary,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-            ],
+            ),
           ),
-        ),
+          SliverPadding(
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width / 30,
+              right: MediaQuery.of(context).size.width / 30,
+              // top: MediaQuery.of(context).size.height / 25,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 15,
+            ),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Text(
+                    _getSubtitle(),
+                    softWrap: true,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: GlobalColor.grey,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(
+                    height: widget.pageNumber == 1
+                        ? MediaQuery.of(context).size.height / 25
+                        : MediaQuery.of(context).size.height / 35,
+                  ),
+                  _getFormWidget(),
+                  SizedBox(height: MediaQuery.of(context).size.height / 25),
+                  if (widget.pageNumber == 1 || widget.pageNumber == 2)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 0.5,
+                            color: GlobalColor.muted,
+                          ),
+                        ),
+                        Text(
+                          widget.pageNumber == 1
+                              ? ' Or sign in with '
+                              : ' Or sign up with ',
+                          style: TextStyle(
+                            color: GlobalColor.muted,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            height: 0.5,
+                            color: GlobalColor.muted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  SizedBox(
+                    height: widget.pageNumber == 1
+                        ? MediaQuery.of(context).size.height / 25
+                        : MediaQuery.of(context).size.height / 50,
+                  ),
+                  if (widget.pageNumber == 1 || widget.pageNumber == 2)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SocialButton(social: 'apple'),
+                        SizedBox(width: MediaQuery.of(context).size.width / 50),
+                        const SocialButton(social: 'google'),
+                        SizedBox(width: MediaQuery.of(context).size.width / 50),
+                        const SocialButton(social: 'facebook'),
+                      ],
+                    ),
+                  SizedBox(
+                    height: widget.pageNumber == 1
+                        ? MediaQuery.of(context).size.height / 25
+                        : MediaQuery.of(context).size.height / 50,
+                  ),
+                  if (widget.pageNumber == 1 || widget.pageNumber == 2)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.pageNumber == 1
+                              ? 'Don\'t have an account?'
+                              : 'Already have an account?',
+                          style: TextStyle(
+                            color: GlobalColor.black,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              widget.pageNumber =
+                                  widget.pageNumber == 1 ? 2 : 1;
+                            });
+                          },
+                          child: Text(
+                            widget.pageNumber == 1 ? 'Sign Up' : 'Sign In',
+                            style: TextStyle(
+                              color: GlobalColor.primary,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  String _getTitleFirstPart() {
+    switch (widget.pageNumber) {
+      case 1:
+        return 'Sign';
+      case 2:
+        return 'Create';
+      case 3:
+        return 'Forgot';
+      case 4:
+        return 'Verify';
+      case 5:
+        return 'Create';
+      default:
+        return '';
+    }
+  }
+
+  String _getTitleSecondPart() {
+    switch (widget.pageNumber) {
+      case 1:
+        return 'In';
+      case 2:
+        return 'Account';
+      case 3:
+        return 'Password';
+      case 4:
+        return 'Code';
+      case 5:
+        return 'New Password';
+      default:
+        return '';
+    }
+  }
+
+  String _getSubtitle() {
+    switch (widget.pageNumber) {
+      case 1:
+        return 'Hi! Welcome back, you\'ve been missed';
+      case 2:
+        return 'Join us to make appointment and meet your doctor seamlessly';
+      case 3:
+        return 'Enter your email so we can send you a verification code to recover your password';
+      case 4:
+        return 'Please enter the code we just sent to email example@email.com';
+      case 5:
+        return 'Your new password must be different from previously used passwords.';
+      default:
+        return '';
+    }
+  }
+
+  Widget _getFormWidget() {
+    switch (widget.pageNumber) {
+      case 1:
+        return const LoginForm();
+      case 2:
+        return const RegisterForm();
+      case 3:
+        return const ForgotPasswordForm();
+      case 4:
+        return const VerifyCodeForm();
+      case 5:
+        return const NewPasswordForm();
+      default:
+        return const SizedBox.shrink();
+    }
   }
 }
