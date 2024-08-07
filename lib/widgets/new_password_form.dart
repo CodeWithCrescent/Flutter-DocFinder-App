@@ -1,4 +1,5 @@
 import 'package:doc_finder/constants/colors.dart';
+import 'package:doc_finder/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
 
 class NewPasswordForm extends StatefulWidget {
@@ -11,7 +12,10 @@ class NewPasswordForm extends StatefulWidget {
 class _NewPasswordFormState extends State<NewPasswordForm> {
   final _formKey = GlobalKey<FormState>();
   final _passController = TextEditingController();
+  final _confirmPassController = TextEditingController();
   bool _obsecurePass = true;
+  bool _obsecureConfirmPass = true;
+  String _currentPassword = '';
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +66,20 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
                       ),
               ),
             ),
+            onChanged: (value) {
+              setState(() {
+                _formKey.currentState?.validate();
+              });
+            },
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Enter a valid password';
+              }
+              setState(() {
+                _currentPassword = value;
+              });
+              return null;
+            },
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 50),
           Row(
@@ -79,10 +97,10 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 75),
           TextFormField(
-            controller: _passController,
+            controller: _confirmPassController,
             keyboardType: TextInputType.visiblePassword,
             cursorColor: GlobalColor.primary,
-            obscureText: _obsecurePass,
+            obscureText: _obsecureConfirmPass,
             decoration: InputDecoration(
               hintText: '************',
               prefixIcon: const Icon(Icons.lock_outlined),
@@ -93,10 +111,10 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
               suffixIcon: IconButton(
                 onPressed: () {
                   setState(() {
-                    _obsecurePass = !_obsecurePass;
+                    _obsecureConfirmPass = !_obsecureConfirmPass;
                   });
                 },
-                icon: _obsecurePass
+                icon: _obsecureConfirmPass
                     ? Icon(
                         Icons.visibility_off_outlined,
                         color: GlobalColor.muted,
@@ -107,8 +125,32 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
                       ),
               ),
             ),
+            onChanged: (confirmValue) {
+              setState(() {
+                _formKey.currentState?.validate();
+              });
+            },
+            validator: (confirmValue) {
+              if (confirmValue == null || confirmValue.isEmpty) {
+                return 'Confirm your password';
+              } else if (confirmValue != _currentPassword) {
+                return 'Password and confirm password do not match';
+              }
+              return null;
+            },
           ),
-          SizedBox(height: MediaQuery.of(context).size.height / 50),
+          SizedBox(height: MediaQuery.of(context).size.height / 25),
+          AuthSubmitButton(
+            title: 'Create New Password',
+            onPressed: () {
+              final isValid = _formKey.currentState!.validate();
+              if (!isValid) {
+                return;
+              }
+              _formKey.currentState!.save();
+              Navigator.of(context).pushNamed('/login');
+            },
+          ),
         ],
       ),
     );
