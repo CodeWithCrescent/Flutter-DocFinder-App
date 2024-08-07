@@ -27,6 +27,14 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: GlobalColor.primary,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(10),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          primary: false,
+          backgroundColor: GlobalColor.primary,
+        ),
+      ),
       body: Center(
         child: Text(
           'DocFinder',
