@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 
 class SectionTitle extends StatelessWidget {
   const SectionTitle({
-    super.key, required this.title, required this.subtitle,
+    super.key,
+    required this.title,
+    required this.subtitle,
   });
   final String title;
   final String subtitle;
@@ -17,7 +19,7 @@ class SectionTitle extends StatelessWidget {
           title,
           style: TextStyle(
             color: GlobalColor.black,
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -27,7 +29,7 @@ class SectionTitle extends StatelessWidget {
             subtitle,
             style: TextStyle(
               color: GlobalColor.primary,
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.w500,
             ),
           ),
