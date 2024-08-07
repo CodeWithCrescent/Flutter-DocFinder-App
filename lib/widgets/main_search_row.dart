@@ -1,7 +1,6 @@
 import 'package:doc_finder/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-
 class MainSearchRow extends StatelessWidget {
   const MainSearchRow({
     super.key,
@@ -58,8 +57,7 @@ class MainSearchRow extends StatelessWidget {
             color: GlobalColor.white,
           ),
           style: ButtonStyle(
-            backgroundColor:
-                MaterialStatePropertyAll(GlobalColor.primary),
+            backgroundColor: MaterialStatePropertyAll(GlobalColor.primary),
             padding: const MaterialStatePropertyAll(
               EdgeInsets.all(12),
             ),
