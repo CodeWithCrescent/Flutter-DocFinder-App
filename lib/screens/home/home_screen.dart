@@ -14,8 +14,8 @@ class HomeScreen extends StatelessWidget {
     return SingleChildScrollView(
       padding: EdgeInsets.only(
         // top: MediaQuery.of(context).size.height / 50,
-        left: MediaQuery.of(context).size.height / 50,
-        right: MediaQuery.of(context).size.height / 50,
+          left: MediaQuery.of(context).size.width / 25,
+          right: MediaQuery.of(context).size.width / 25,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
