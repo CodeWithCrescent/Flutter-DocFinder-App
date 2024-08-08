@@ -1,5 +1,7 @@
 import 'package:doc_finder/constants/colors.dart';
 import 'package:doc_finder/screens/auth/auth_screen.dart';
+import 'package:doc_finder/screens/cancel_booking_screen.dart';
+import 'package:doc_finder/screens/categories_screen.dart';
 import 'package:doc_finder/screens/get_started.dart';
 import 'package:doc_finder/screens/layout_screen.dart';
 import 'package:doc_finder/screens/location_access.dart';
@@ -38,6 +40,8 @@ class MyApp extends StatelessWidget {
         '/location-access': (context) => const LocationAccess(),
         '/enter-location-manually': (context) => const EnterLocationManually(),
         '/home': (context) => const AppLayoutScreen(),
+        '/categories': (context) => const DoctorCategoriesScreen(),
+        '/cancel-booking': (context) => const CancelBookingScreen(),
       },
     );
   }
