@@ -24,7 +24,9 @@ class SectionTitle extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed('/categories');
+          },
           child: Text(
             subtitle,
             style: TextStyle(
