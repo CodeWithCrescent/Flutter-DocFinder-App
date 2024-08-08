@@ -65,71 +65,72 @@ class _AppLayoutScreenState extends State<AppLayoutScreen>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: _selectedIndex == 1
-            ? null
-            : _selectedIndex == 2
-                ? AppBar(
-                    title: const Text(
-                      'My Bookings',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
-                      ),
+    return Scaffold(
+      backgroundColor: GlobalColor.white,
+      appBar: _selectedIndex == 1 || _selectedIndex == 4
+          ? null
+          : _selectedIndex == 2
+              ? AppBar(
+                  title: const Text(
+                    'My Bookings',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
                     ),
-                    centerTitle: true,
-                    foregroundColor: GlobalColor.black,
-                    backgroundColor: GlobalColor.white,
-                    surfaceTintColor: GlobalColor.white,
-                    leading: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushReplacementNamed('/home');
-                      },
+                  ),
+                  centerTitle: true,
+                  foregroundColor: GlobalColor.black,
+                  backgroundColor: GlobalColor.white,
+                  surfaceTintColor: GlobalColor.white,
+                  leading: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushReplacementNamed('/home');
+                    },
+                    child: const Icon(
+                      Icons.arrow_back_rounded,
+                    ),
+                  ),
+                  actions: [
+                    Container(
+                      margin: const EdgeInsets.only(right: 15),
                       child: const Icon(
-                        Icons.arrow_back_rounded,
+                        Icons.search,
                       ),
                     ),
-                    actions: [
-                      Container(
-                        margin: const EdgeInsets.only(right: 15),
-                        child: const Icon(
-                          Icons.search,
-                        ),
+                  ],
+                  bottom: TabBar(
+                    controller: _tabController,
+                    tabs: const [
+                      Tab(
+                        text: 'Upcoming',
+                      ),
+                      Tab(
+                        text: 'Completed',
+                      ),
+                      Tab(
+                        text: 'Cancelled',
                       ),
                     ],
-                    bottom: TabBar(
-                      controller: _tabController,
-                      tabs: const [
-                        Tab(
-                          text: 'Upcoming',
-                        ),
-                        Tab(
-                          text: 'Completed',
-                        ),
-                        Tab(
-                          text: 'Cancelled',
-                        ),
-                      ],
-                    ),
-                  )
-                : PreferredSize(
-                    preferredSize: const Size.fromHeight(120),
-                    child: HomeAppBar(searchController: _searchController),
                   ),
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: [
-            const HomeScreen(),
-            const ExploreScreen(),
-            BookingsTabsView(tabController: _tabController),
-            const ChatsScreen(),
-            const ProfileScreen(),
-          ],
-        ),
-        bottomNavigationBar: Container(
-          padding: const EdgeInsets.only(bottom: 10, right: 15, left: 15),
-          color: Colors.transparent,
+                )
+              : PreferredSize(
+                  preferredSize: const Size.fromHeight(120),
+                  child: HomeAppBar(searchController: _searchController),
+                ),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: [
+          const HomeScreen(),
+           ExploreScreen(searchController: _searchController),
+          BookingsTabsView(tabController: _tabController),
+          const ChatsScreen(),
+          const ProfileScreen(),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        color: Colors.transparent,
+        child: SizedBox(
+          width: double.infinity,
           child: BottomBarFloating(
             items: _items,
             backgroundColor: GlobalColor.white,
@@ -140,7 +141,7 @@ class _AppLayoutScreenState extends State<AppLayoutScreen>
             paddingVertical: 15,
             iconSize: 25,
             animated: true,
-            borderRadius: BorderRadius.circular(32),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
             boxShadow: [
               BoxShadow(
                 color: GlobalColor.black.withOpacity(0.2),
