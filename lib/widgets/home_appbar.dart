@@ -2,7 +2,6 @@ import 'package:doc_finder/constants/colors.dart';
 import 'package:doc_finder/widgets/main_search_row.dart';
 import 'package:flutter/material.dart';
 
-
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({
     super.key,

@@ -16,8 +16,8 @@ class DoctorSpecialityContainer extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 75,
-          height: 75,
+          width: 70,
+          height: 70,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: GlobalColor.primary.withOpacity(0.1),
@@ -32,12 +32,14 @@ class DoctorSpecialityContainer extends StatelessWidget {
         SizedBox(height: MediaQuery.of(context).size.width / 65),
         Text(
           speciality,
+          softWrap: true,
           style: TextStyle(
             color: GlobalColor.black,
             fontSize: 12,
             fontWeight: FontWeight.bold,
           ),
-        )
+        ),
+        // SizedBox(height: MediaQuery.of(context).size.height / 85),
       ],
     );
   }
