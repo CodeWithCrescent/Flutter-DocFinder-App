@@ -6,6 +6,7 @@ import 'package:doc_finder/screens/get_started.dart';
 import 'package:doc_finder/screens/layout_screen.dart';
 import 'package:doc_finder/screens/location_access.dart';
 import 'package:doc_finder/screens/location_manually.dart';
+import 'package:doc_finder/screens/nearby_hospital.dart';
 import 'package:doc_finder/screens/onboarding_screen.dart';
 import 'package:doc_finder/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/location-access': (context) => const LocationAccess(),
         '/enter-location-manually': (context) => const EnterLocationManually(),
         '/home': (context) => const AppLayoutScreen(),
+        '/nearby-hospitals': (context) => const NearbyHospital(),
         '/categories': (context) => const DoctorCategoriesScreen(),
         '/cancel-booking': (context) => const CancelBookingScreen(),
       },

@@ -6,6 +6,7 @@ import 'package:doc_finder/screens/home/explore_screen.dart';
 import 'package:doc_finder/screens/home/profile_screen.dart';
 import 'package:doc_finder/screens/home/home_screen.dart';
 import 'package:doc_finder/widgets/home_appbar.dart';
+import 'package:doc_finder/widgets/main_search_row.dart';
 import 'package:flutter/material.dart';
 
 class AppLayoutScreen extends StatefulWidget {
@@ -113,15 +114,85 @@ class _AppLayoutScreenState extends State<AppLayoutScreen>
                     ],
                   ),
                 )
-              : PreferredSize(
-                  preferredSize: const Size.fromHeight(120),
-                  child: HomeAppBar(searchController: _searchController),
-                ),
+              : _selectedIndex == 3
+                  ? AppBar(
+                      title: const Text(
+                        'Chat',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                        ),
+                      ),
+                      centerTitle: true,
+                      foregroundColor: GlobalColor.white,
+                      backgroundColor: GlobalColor.primary,
+                      surfaceTintColor: GlobalColor.primary,
+                      // elevation: 0,
+                      leading: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushReplacementNamed('/home');
+                        },
+                        child: const Icon(
+                          Icons.arrow_back_rounded,
+                        ),
+                      ),
+                      bottom: PreferredSize(
+                        preferredSize: const Size.fromHeight(85),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 15,
+                            right: 15,
+                            bottom: 15,
+                          ),
+                          child: TextField(
+                            controller: _searchController,
+                            style: TextStyle(
+                              color: GlobalColor.black,
+                              fontWeight: FontWeight.normal,
+                              fontSize: 14,
+                            ),
+                            cursorWidth: 1.25,
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(Icons.search_rounded),
+                              prefixIconColor: GlobalColor.primary,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              fillColor: GlobalColor.white,
+                              filled: true,
+                              focusColor: GlobalColor.primary,
+                              hintText: 'Search Doctor',
+                              hintStyle: TextStyle(
+                                color: GlobalColor.muted,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 14,
+                              ),
+                              hoverColor: GlobalColor.primary,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide(
+                                  color: GlobalColor.white,
+                                ),
+                              ),
+                              contentPadding:
+                                  const EdgeInsets.symmetric(vertical: 3),
+                            ),
+                            cursorColor: GlobalColor.muted,
+                            enableSuggestions: true,
+                            keyboardType: TextInputType.text,
+                          ),
+                        ),
+                      ),
+                    )
+                  : PreferredSize(
+                      preferredSize: const Size.fromHeight(120),
+                      child: HomeAppBar(searchController: _searchController),
+                    ),
       body: IndexedStack(
         index: _selectedIndex,
         children: [
           const HomeScreen(),
-           ExploreScreen(searchController: _searchController),
+          ExploreScreen(searchController: _searchController),
           BookingsTabsView(tabController: _tabController),
           const ChatsScreen(),
           const ProfileScreen(),
