@@ -5,10 +5,11 @@ class SectionTitle extends StatelessWidget {
   const SectionTitle({
     super.key,
     required this.title,
-    required this.subtitle,
+    required this.subtitle, required this.onPressed,
   });
   final String title;
   final String subtitle;
+  final Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +25,7 @@ class SectionTitle extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () {
-            Navigator.of(context).pushNamed('/categories');
-          },
+          onPressed: onPressed,
           child: Text(
             subtitle,
             style: TextStyle(
