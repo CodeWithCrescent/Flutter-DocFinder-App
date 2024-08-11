@@ -14,22 +14,28 @@ class HomeScreen extends StatelessWidget {
     return SingleChildScrollView(
       padding: EdgeInsets.only(
         // top: MediaQuery.of(context).size.height / 50,
-          left: MediaQuery.of(context).size.width / 25,
-          right: MediaQuery.of(context).size.width / 25,
+        left: MediaQuery.of(context).size.width / 25,
+        right: MediaQuery.of(context).size.width / 25,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SectionTitle(
+          SectionTitle(
             title: 'Upcoming Schedule',
-            subtitle: 'See All',
+            subtitle: '',
+            onPressed: () {
+              Navigator.of(context).pushNamed('/categories');
+            },
           ),
           // Upcoming Schedule
           const UpcomingScheduleCard(),
           SizedBox(height: MediaQuery.of(context).size.height / 30),
-          const SectionTitle(
+          SectionTitle(
             title: 'Doctor Speciality',
             subtitle: 'See All',
+            onPressed: () {
+              Navigator.of(context).pushNamed('/categories');
+            },
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -69,9 +75,12 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 30),
-          const SectionTitle(
+          SectionTitle(
             title: 'Nearby Hospitals',
             subtitle: 'See All',
+            onPressed: () {
+              Navigator.of(context).pushNamed('/nearby-hospitals');
+            },
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
