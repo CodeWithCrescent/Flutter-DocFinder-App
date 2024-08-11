@@ -1,12 +1,20 @@
 import 'package:doc_finder/constants/colors.dart';
+import 'package:doc_finder/provider/auth_provider.dart';
 import 'package:doc_finder/widgets/app_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class GetStarted extends StatelessWidget {
   const GetStarted({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthProvider>(context);
+    if (auth.isAuthenticated) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacementNamed(context, '/home');
+      });
+    }
     return Scaffold(
       backgroundColor: GlobalColor.bg,
       appBar: PreferredSize(

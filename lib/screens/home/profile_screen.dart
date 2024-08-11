@@ -1,5 +1,7 @@
 import 'package:doc_finder/constants/colors.dart';
+import 'package:doc_finder/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -9,6 +11,8 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  bool isLoading = false;
+  int _activeIndex = 0;
   final List<String> _menu = [
     'My Profile',
     'Payment Methods',
@@ -92,7 +96,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 endIndent: 5,
               ),
               itemBuilder: (context, index) => ListTile(
-                onTap: () {},
+                onTap: () {
+                  if (index == 6) {
+                    try {
+                      setState(() {
+                        isLoading = true;
+                        _activeIndex = index;
+                      });
+                      Provider.of<AuthProvider>(context, listen: false)
+                          .logout(context);
+                      debugPrint("Successful signed out!");
+                    } catch (e) {
+                      debugPrint("Failed to sign out due to: $e");
+                      setState(() {
+                        isLoading = false;
+                        _activeIndex = index;
+                      });
+                    }
+                  }
+                },
                 leading: Icon(_menuIcon[index], color: GlobalColor.primary),
                 title: Text(
                   _menu[index],
@@ -102,10 +124,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 style: ListTileStyle.list,
-                trailing: Icon(
-                  Icons.keyboard_arrow_right_rounded,
-                  color: GlobalColor.primary,
-                ),
+                trailing: isLoading && _activeIndex == index
+                    ? SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          color: GlobalColor.primary,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : Icon(
+                        Icons.keyboard_arrow_right_rounded,
+                        color: GlobalColor.primary,
+                      ),
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 5.0, horizontal: 15),
                 dense: true,

@@ -28,12 +28,10 @@ class OnBoardingScreen extends StatelessWidget {
             backgroundColor: GlobalColor.primary,
           ),
           onFinish: () {
-            debugPrint('To Register page!!');
             Navigator.of(context).pushReplacementNamed('/register');
           },
           trailingFunction: () {
-            debugPrint('To Login Page!!');
-            Navigator.of(context).pushNamed('/login');
+            Navigator.of(context).pushReplacementNamed('/login');
           },
           skipTextButton: const Text('Skip'),
           trailing: const Text('Login'),
