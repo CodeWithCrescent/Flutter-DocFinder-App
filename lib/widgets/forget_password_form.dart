@@ -62,7 +62,12 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 25),
           AuthSubmitButton(
-            title: 'Send Reset Code',
+            title: Text(
+              'Send Reset Code',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
             onPressed: () {
               final isValid = _formKey.currentState!.validate();
               if (!isValid) {

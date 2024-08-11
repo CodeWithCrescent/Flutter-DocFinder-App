@@ -1,11 +1,31 @@
 import 'package:doc_finder/constants/colors.dart';
+import 'package:doc_finder/provider/auth_provider.dart';
+import 'package:doc_finder/services/location_services.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class LocationAccess extends StatelessWidget {
+class LocationAccess extends StatefulWidget {
   const LocationAccess({super.key});
 
   @override
+  State<LocationAccess> createState() => _LocationAccessState();
+}
+
+class _LocationAccessState extends State<LocationAccess> {
+  bool isLoading = false;
+  @override
   Widget build(BuildContext context) {
+          debugPrint('...at the location access..');
+    // Check if user is authenticated
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+    if (!auth.isAuthenticated) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacementNamed(context, '/login');
+      });
+    }
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String?>;
+
     return Scaffold(
       backgroundColor: GlobalColor.white,
       body: SafeArea(
@@ -67,27 +87,39 @@ class LocationAccess extends StatelessWidget {
               SizedBox(height: MediaQuery.of(context).size.height / 25),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed(
-                    '/home',
-                    arguments: {'location': 'Makumbusho Stand'},
-                  );
+                  setState(() {
+                    isLoading = true;
+                  });
+                  getCurrentPosition(context, arguments['token']);
+                  setState(() {
+                    isLoading = false;
+                  });
                 },
                 style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll(GlobalColor.primary),
-                    foregroundColor:
-                        MaterialStatePropertyAll(GlobalColor.white),
-                    elevation: const MaterialStatePropertyAll(5),
-                    fixedSize: MaterialStateProperty.all(
-                      Size.fromWidth(MediaQuery.of(context).size.width / 1.2),
-                    ),
-                    padding: MaterialStateProperty.all(
-                      const EdgeInsets.symmetric(vertical: 18),
-                    ),
-                    textStyle: const MaterialStatePropertyAll(TextStyle(
-                      fontSize: 16,
-                    ))),
-                child: const Text('Allow Location Access'),
+                  backgroundColor:
+                      MaterialStatePropertyAll(GlobalColor.primary),
+                  foregroundColor: MaterialStatePropertyAll(GlobalColor.white),
+                  elevation: const MaterialStatePropertyAll(5),
+                  fixedSize: MaterialStateProperty.all(
+                    Size.fromWidth(MediaQuery.of(context).size.width / 1.2),
+                  ),
+                  padding: MaterialStateProperty.all(
+                    const EdgeInsets.symmetric(vertical: 18),
+                  ),
+                  textStyle: const MaterialStatePropertyAll(TextStyle(
+                    fontSize: 16,
+                  )),
+                ),
+                child: isLoading
+                    ? SizedBox(
+                        width: 25,
+                        height: 25,
+                        child: CircularProgressIndicator(
+                          color: GlobalColor.white,
+                          strokeWidth: 3,
+                        ),
+                      )
+                    : const Text('Allow Location Access'),
               ),
               SizedBox(height: MediaQuery.of(context).size.height / 50),
               TextButton(

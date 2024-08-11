@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:doc_finder/constants/colors.dart';
+import 'package:doc_finder/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,10 +19,20 @@ class _SplashScreenState extends State<SplashScreen> {
     initializeApp();
   }
 
-  Future initializeApp() async {
-    Timer(const Duration(milliseconds: 3000), () {
-      Navigator.of(context).pushReplacementNamed('/get-started');
-    });
+  Future<void> initializeApp() async {
+    // Allow time for any initialization (like checking authentication)
+    await Future.delayed(const Duration(milliseconds: 3000));
+
+    if (mounted) {
+      final auth = Provider.of<AuthProvider>(context, listen: false);
+
+      // Navigate based on authentication status
+      if (auth.isAuthenticated) {
+        Navigator.of(context).pushReplacementNamed('/home');
+      } else {
+        Navigator.of(context).pushReplacementNamed('/get-started');
+      }
+    }
   }
 
   @override

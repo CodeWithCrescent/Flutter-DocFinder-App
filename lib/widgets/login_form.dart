@@ -1,6 +1,8 @@
 import 'package:doc_finder/constants/colors.dart';
+import 'package:doc_finder/provider/auth_provider.dart';
 import 'package:doc_finder/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -14,14 +16,7 @@ class _LoginFormState extends State<LoginForm> {
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
   bool _obsecurePass = true;
-
-  void _submit() {
-    final isValid = _formKey.currentState!.validate();
-    if (!isValid) {
-      return;
-    }
-    _formKey.currentState!.save();
-  }
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +42,7 @@ class _LoginFormState extends State<LoginForm> {
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
             cursorColor: GlobalColor.primary,
+            readOnly: isLoading ? true : false,
             decoration: InputDecoration(
               hintText: 'example@gmail.com',
               prefixIcon: const Icon(Icons.email_outlined),
@@ -90,6 +86,7 @@ class _LoginFormState extends State<LoginForm> {
             keyboardType: TextInputType.visiblePassword,
             cursorColor: GlobalColor.primary,
             obscureText: _obsecurePass,
+            readOnly: isLoading ? true : false,
             decoration: InputDecoration(
               hintText: '************',
               prefixIcon: const Icon(Icons.lock_outlined),
@@ -146,15 +143,62 @@ class _LoginFormState extends State<LoginForm> {
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 50),
           AuthSubmitButton(
-            title: 'Sign In',
-            onPressed: () {
+            title: isLoading
+                ? SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: CircularProgressIndicator(
+                      color: GlobalColor.white,
+                      strokeWidth: 3,
+                    ),
+                  )
+                : const Text(
+                    'Sign In',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+            onPressed: () async {
+              setState(() {
+                isLoading = true;
+              });
               final isValid = _formKey.currentState!.validate();
               if (!isValid) {
+                setState(() {
+                  isLoading = false;
+                });
                 return;
               }
-              debugPrint('In Login, Data Validated!!');
               _formKey.currentState!.save();
-              Navigator.of(context).pushNamed('/home');
+              try {
+                await Provider.of<AuthProvider>(context, listen: false).login(
+                  _emailController.text,
+                  _passController.text,
+                  context,
+                );
+              } catch (e) {
+                debugPrint(e.toString());
+                // ignore: use_build_context_synchronously
+                showDialog(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    title: const Text('Login Error'),
+                    content: Text(e.toString()),
+                    actions: [
+                      TextButton(
+                        child: const Text('OK'),
+                        onPressed: () {
+                          Navigator.of(ctx).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              } finally {
+                setState(() {
+                  isLoading = false;
+                });
+              }
             },
           ),
         ],

@@ -1,6 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:doc_finder/constants/colors.dart';
+import 'package:doc_finder/provider/auth_provider.dart';
 import 'package:doc_finder/widgets/submit_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -16,6 +20,16 @@ class _RegisterFormState extends State<RegisterForm> {
   final _passController = TextEditingController();
   bool _obscurePass = true;
   bool _agreedTermsAndConditions = false;
+  bool isLoading = false;
+  var errorMessage = '';
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _nameController.dispose();
+    _passController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +45,7 @@ class _RegisterFormState extends State<RegisterForm> {
             keyboardType: TextInputType.name,
             hintText: 'Your Name',
             icon: Icons.person_outlined,
+            textCapitalization: TextCapitalization.words,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Enter a valid username';
@@ -47,6 +62,7 @@ class _RegisterFormState extends State<RegisterForm> {
             keyboardType: TextInputType.emailAddress,
             hintText: 'example@gmail.com',
             icon: Icons.email_outlined,
+            textCapitalization: TextCapitalization.none,
             validator: (value) {
               if (value == null ||
                   value.isEmpty ||
@@ -101,7 +117,9 @@ class _RegisterFormState extends State<RegisterForm> {
             },
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Enter a valid password';
+                return 'Password can not be empty';
+              } else if (value.length < 6) {
+                return 'Password must be at least 6 characters long';
               }
               return null;
             },
@@ -111,8 +129,8 @@ class _RegisterFormState extends State<RegisterForm> {
           // Terms and Conditions Checkbox
           FormField<bool>(
             initialValue: _agreedTermsAndConditions,
-            validator: (value) {
-              if (value == null || !value) {
+            validator: (thisValue) {
+              if (thisValue == null || !thisValue) {
                 return 'Please accept the terms and conditions to continue';
               }
               return null;
@@ -168,11 +186,46 @@ class _RegisterFormState extends State<RegisterForm> {
 
           // Submit Button
           AuthSubmitButton(
-            title: 'Sign Up',
-            onPressed: () {
-              if (_formKey.currentState?.validate() ?? false) {
-                _formKey.currentState?.save();
-                Navigator.of(context).pushNamed('/location-access');
+            title: isLoading
+                ? SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: CircularProgressIndicator(
+                      color: GlobalColor.white,
+                      strokeWidth: 3,
+                    ),
+                  )
+                : const Text(
+                    'Sign Up',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+            onPressed: () async {
+              setState(() {
+                isLoading = true;
+              });
+              final isValid = _formKey.currentState!.validate();
+              if (!isValid) {
+                setState(() {
+                  isLoading = false;
+                });
+                return;
+              }
+              _formKey.currentState?.save();
+              try {
+                await Provider.of<AuthProvider>(context, listen: false)
+                    .register(
+                  _nameController.text,
+                  _emailController.text,
+                  _passController.text,
+                  context,
+                );
+              } catch (e) {
+                // Handle register error
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(e.toString())),
+                );
               }
             },
           ),
@@ -189,6 +242,7 @@ class _RegisterFormState extends State<RegisterForm> {
     required String hintText,
     required IconData icon,
     required String? Function(String?) validator,
+    required TextCapitalization textCapitalization,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,6 +260,7 @@ class _RegisterFormState extends State<RegisterForm> {
           controller: controller,
           keyboardType: keyboardType,
           cursorColor: GlobalColor.primary,
+          textCapitalization: textCapitalization,
           decoration: InputDecoration(
             hintText: hintText,
             prefixIcon: Icon(icon, color: GlobalColor.primary),

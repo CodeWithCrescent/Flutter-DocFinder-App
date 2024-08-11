@@ -141,7 +141,12 @@ class _NewPasswordFormState extends State<NewPasswordForm> {
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 25),
           AuthSubmitButton(
-            title: 'Create New Password',
+            title: Text(
+        'Create New Password',
+        style: const TextStyle(
+          fontSize: 16,
+        ),
+      ),
             onPressed: () {
               final isValid = _formKey.currentState!.validate();
               if (!isValid) {

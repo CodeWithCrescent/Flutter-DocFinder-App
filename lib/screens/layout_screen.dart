@@ -6,8 +6,10 @@ import 'package:doc_finder/screens/home/explore_screen.dart';
 import 'package:doc_finder/screens/home/profile_screen.dart';
 import 'package:doc_finder/screens/home/home_screen.dart';
 import 'package:doc_finder/widgets/home_appbar.dart';
-import 'package:doc_finder/widgets/main_search_row.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/auth_provider.dart';
 
 class AppLayoutScreen extends StatefulWidget {
   const AppLayoutScreen({super.key});
@@ -66,6 +68,13 @@ class _AppLayoutScreenState extends State<AppLayoutScreen>
 
   @override
   Widget build(BuildContext context) {
+    // Check if user is authenticated
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+    if (!auth.isAuthenticated) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacementNamed(context, '/login');
+      });
+    }
     return Scaffold(
       backgroundColor: GlobalColor.white,
       appBar: _selectedIndex == 1 || _selectedIndex == 4

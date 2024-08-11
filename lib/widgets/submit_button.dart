@@ -1,16 +1,27 @@
-import 'package:doc_finder/constants/colors.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-class AuthSubmitButton extends StatelessWidget {
-  const AuthSubmitButton({super.key, required this.title, this.onPressed});
+import 'package:doc_finder/constants/colors.dart';
 
-  final String title;
+class AuthSubmitButton extends StatefulWidget {
+  const AuthSubmitButton({
+    Key? key,
+    required this.title,
+    this.onPressed,
+  }) : super(key: key);
+
+  final Widget title;
   final Function()? onPressed;
 
   @override
+  State<AuthSubmitButton> createState() => _AuthSubmitButtonState();
+}
+
+class _AuthSubmitButtonState extends State<AuthSubmitButton> {
+  @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: onPressed,
+      onPressed: widget.onPressed,
       style: ButtonStyle(
         foregroundColor: MaterialStatePropertyAll(GlobalColor.white),
         backgroundColor: MaterialStatePropertyAll(GlobalColor.primary),
@@ -21,12 +32,7 @@ class AuthSubmitButton extends StatelessWidget {
           EdgeInsets.symmetric(vertical: 15),
         ),
       ),
-      child: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 16,
-        ),
-      ),
+      child: widget.title,
     );
   }
 }
